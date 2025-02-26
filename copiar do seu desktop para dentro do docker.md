@@ -235,4 +235,26 @@ Isso faz com que **o container veja a pasta `meu_projeto` como se estivesse dent
 - **`-v` (volume)** → Sincroniza uma pasta do PC com o container, útil para desenvolvimento.  
 - **`meu_flask:/app`** → Significa "container `meu_flask`, diretório `/app` dentro dele".  
 
-Se precisar de mais explicações ou exemplos, me avise! 🚀
+---
+
+Parece que o comando foi executado com sucesso e a pasta `Servidor_Flask_no_Desktop_de_Destino` foi copiada para dentro do container `0e0306cd172b`, no diretório `/app`. 🎉  
+
+Agora, você pode entrar no container e verificar se os arquivos estão lá:  
+
+```bash
+docker exec -it 0e0306cd172b bash
+```
+
+Depois, dentro do container, rode:  
+
+```bash
+ls /app
+```
+
+Se tudo estiver certo, você pode iniciar seu servidor Flask com:  
+
+```bash
+python3 /app/seu_script.py
+```
+
+Caso tenha algum erro ou dúvida, me avise! 🚀
