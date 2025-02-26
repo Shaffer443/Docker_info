@@ -179,4 +179,60 @@ Isso cria um ambiente independente onde o script já está pronto para rodar sem
 - ✅ **Se for um ambiente de produção** → **Use um `Dockerfile` para criar uma imagem imutável que já contenha todo o código e dependências.**  
 - ✅ **Se quiser apenas copiar os arquivos sem reconstruir a imagem** → **Use `docker cp` para transferir os arquivos para dentro do container já rodando.**  
 
-Se precisar de mais detalhes, só avisar! 🚀
+----
+
+Ótima pergunta! Vamos entender o que significa `meu_flask:/app` e por que usamos essa estrutura em alguns comandos do Docker.
+
+---
+
+### 🔹 **Explicação do formato `meu_flask:/app`**
+O formato **`<container>:<caminho_no_container>`** é usado para especificar o container e o local dentro dele onde os arquivos serão armazenados.  
+
+- `meu_flask` → Nome do container que você está manipulando.  
+- `/app` → Caminho dentro do container onde os arquivos serão copiados ou montados.  
+
+Essa estrutura aparece em **duas situações principais** no Docker:
+
+---
+
+## 1️⃣ **Quando usamos `docker cp` (copiar arquivos para dentro do container)**  
+O comando:  
+```bash
+docker cp /caminho/no/seu/PC meu_flask:/app
+```
+Significa:  
+✅ Copiar todos os arquivos da pasta `/caminho/no/seu/PC` no seu computador para o caminho `/app` **dentro** do container chamado `meu_flask`.  
+
+**Exemplo:**  
+```bash
+docker cp /home/usuario/Desktop/meu_projeto meu_flask:/app
+```
+Isso copia toda a pasta `meu_projeto` do **seu computador** para o diretório `/app` dentro do container `meu_flask`.
+
+---
+
+## 2️⃣ **Quando usamos `-v` para montar volumes (sincronizar uma pasta do PC com o container)**
+O comando:  
+```bash
+docker run -d --name meu_flask -v /caminho/no/seu/PC:/app servidor_flask
+```
+Significa:  
+✅ Criar um container baseado na imagem `servidor_flask` e mapear a pasta `/caminho/no/seu/PC` do seu computador para `/app` dentro do container.  
+
+**Diferente do `docker cp`, isso cria um "espelho" da pasta dentro do container.**  
+Ou seja, qualquer alteração feita na pasta do PC **se reflete dentro do container** automaticamente.
+
+**Exemplo:**  
+```bash
+docker run -d --name meu_flask -v C:\Users\Rafael\Desktop\meu_projeto:/app servidor_flask
+```
+Isso faz com que **o container veja a pasta `meu_projeto` como se estivesse dentro dele** no diretório `/app`.
+
+---
+
+### 📌 **Resumo**
+- **`docker cp`** → Copia arquivos para dentro do container **de uma vez**.  
+- **`-v` (volume)** → Sincroniza uma pasta do PC com o container, útil para desenvolvimento.  
+- **`meu_flask:/app`** → Significa "container `meu_flask`, diretório `/app` dentro dele".  
+
+Se precisar de mais explicações ou exemplos, me avise! 🚀
